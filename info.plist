@@ -63,7 +63,7 @@ mkdir -p ${path}
 rmdir ${path}
 touch ${path} 
 fi
-python alfred.py '{query}' "${filePath}"</string>
+python cmd/alfred.py '{query}' "${filePath}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -93,7 +93,7 @@ python alfred.py '{query}' "${filePath}"</string>
 				<integer>127</integer>
 				<key>script</key>
 				<string>filePath=${path/#~/"$HOME"}
-python changeTodo.py "{query}" "${filePath}"</string>
+python cmd/changeTodo.py "{query}" "${filePath}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>

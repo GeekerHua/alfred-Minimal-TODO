@@ -19,10 +19,10 @@ def searchList():
     i = 0
     for item in file.readlines():
         if item.replace('-', '').find(query) >= 0 and item != "\n":
-            icon = 'uncheck.jpg'
+            icon = './icon/uncheck.jpg'
             i += 1
             if item.startswith('-'):
-                icon = 'check.jpg'
+                icon = './icon/check.jpg'
             tmpList.append({
                 "valid": True,
                 "title": str(i) + '.' + item,
@@ -50,7 +50,7 @@ def appendAdd(info):
         "title": "-a  new todo",
         "subtitle": "add new todo '" + info + "'",
         "autocomplete": "-a ",
-        "icon":{"path": "add.jpg"},
+        "icon":{"path": "./icon/add.jpg"},
         "arg": "[+]" + info
     })
 
@@ -60,7 +60,7 @@ def resetAll(info):
         "title": "-r  reset all", 
         "subtitle": "reset all todo",
         "autocomplete": "-r",
-        "icon": {"path": "reset.jpg"}, 
+        "icon": {"path": "./icon/reset.jpg"}, 
         "arg": "[r]"})
 
 
@@ -69,7 +69,7 @@ def clearAll(info):
         "title": "-c  clear all done", 
         "subtitle": "clear all done", 
         "autocomplete": "-c",
-        "icon": {"path": "delete.png"}, 
+        "icon": {"path": "./icon/delete.png"}, 
         "arg": "[c]"})
 
 
