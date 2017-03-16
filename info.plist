@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.geekerhua.todolist</string>
+	<key>category</key>
+	<string>MyTools</string>
+	<key>connections</key>
+	<dict>
+		<key>560AEA2C-7E51-4BC4-9E9B-A7640F0FF22C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</key>
+		<array/>
+	</dict>
+	<key>createdby</key>
+	<string>GeekerHua</string>
+	<key>description</key>
+	<string>极简清单</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Minimal-TODO</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>todo</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>wait</string>
+				<key>script</key>
+				<string>filePath=${path/#~/"$HOME"}
+if ! [ -e ${path} ];
+then 
+mkdir -p ${path}
+rmdir ${path}
+touch ${path} 
+fi
+python alfred.py '{query}' "${filePath}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>{query} search or add '{query}' in your todo list</string>
+				<key>title</key>
+				<string>todo list</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>560AEA2C-7E51-4BC4-9E9B-A7640F0FF22C</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>filePath=${path/#~/"$HOME"}
+python changeTodo.py "{query}" "${filePath}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>这是一个极简todo list工具，todo任务文件放在指定的路径中。
+在右侧的"path"对应的值中输入数据文件路径，并且最好是简单地txt文件。例如"~/Documents/Alfred/todos/todo.txt"。
+
+使用“todo”来出发程序，默认会列出添加的todo，“-”开头意味着已经完成的todo。
+可以使用的命令列表如下：
+"todo -c"  --&gt; clear all done功能，清除所以已完成项；
+"todo -a"  --&gt; 添加任务，支持一次添加多个，使用空格分割；
+"todo -r"  --&gt; reset all 重置所有任务为未完成状态。</string>
+	<key>uidata</key>
+	<dict>
+		<key>560AEA2C-7E51-4BC4-9E9B-A7640F0FF22C</key>
+		<dict>
+			<key>xpos</key>
+			<integer>80</integer>
+			<key>ypos</key>
+			<integer>150</integer>
+		</dict>
+		<key>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</key>
+		<dict>
+			<key>note</key>
+			<string>changeTodo</string>
+			<key>xpos</key>
+			<integer>350</integer>
+			<key>ypos</key>
+			<integer>150</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>path</key>
+		<string>/Users/hua/Documents/Alfred/todos/todo.txt</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>path</string>
+	</array>
+	<key>version</key>
+	<string>1.5</string>
+	<key>webaddress</key>
+	<string>http://www.geekerhua.com</string>
+</dict>
+</plist>
