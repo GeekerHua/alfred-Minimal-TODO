@@ -37,8 +37,34 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>filePath=${path/#~/"$HOME"}
+python cmd/todo.py "{query}" "${filePath}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -59,11 +85,11 @@
 				<string>filePath=${path/#~/"$HOME"}
 if ! [ -e ${path} ];
 then 
-mkdir -p ${path}
-rmdir ${path}
-touch ${path} 
+	mkdir -p ${filePath}
+	rmdir ${filePath}
+	touch ${filePath} 
 fi
-python cmd/alfred.py '{query}' "${filePath}"</string>
+python cmd/alfred.py '{query}' ${filePath}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -84,36 +110,12 @@ python cmd/alfred.py '{query}' "${filePath}"</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>script</key>
-				<string>filePath=${path/#~/"$HOME"}
-python cmd/changeTodo.py "{query}" "${filePath}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
 	</array>
 	<key>readme</key>
 	<string>这是一个极简todo list工具，todo任务文件放在指定的路径中。
 在右侧的"path"对应的值中输入数据文件路径，并且最好是简单地txt文件。例如"~/Documents/Alfred/todos/todo.txt"。
 
-使用“todo”来出发程序，默认会列出添加的todo，“-”开头意味着已经完成的todo。
+使用“todo”来触发程序，默认会列出添加的todo，“-”开头意味着已经完成的todo。
 可以使用的命令列表如下：
 "todo -c"  --&gt; clear all done功能，清除所以已完成项；
 "todo -a"  --&gt; 添加任务，支持一次添加多个，使用空格分割；
@@ -140,14 +142,10 @@ python cmd/changeTodo.py "{query}" "${filePath}"</string>
 	<key>variables</key>
 	<dict>
 		<key>path</key>
-		<string>/Users/hua/Documents/Alfred/todos/todo.txt</string>
+		<string>~/Documents/Alfred/todos/todo.txt</string>
 	</dict>
-	<key>variablesdontexport</key>
-	<array>
-		<string>path</string>
-	</array>
 	<key>version</key>
-	<string>1.5</string>
+	<string>1.6</string>
 	<key>webaddress</key>
 	<string>http://www.geekerhua.com</string>
 </dict>

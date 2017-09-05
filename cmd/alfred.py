@@ -1,28 +1,16 @@
 # coding=utf-8
 
-import os
 import json
 import sys
 
-query = sys.argv[1]
-path = sys.argv[2]
 
-
-file = open(path, 'r')
-res = []
-
-querys = query.strip().replace("\ ", "  ").strip()
-
-
-def searchList():
+def searchList(fs, q):
     tmpList = []
     i = 0
-    for item in file.readlines():
-        if item.replace('-', '').find(query) >= 0 and item != "\n":
-            icon = './icon/uncheck.jpg'
+    for item in fs.readlines():
+        if q in item:
             i += 1
-            if item.startswith('-'):
-                icon = './icon/check.jpg'
+            icon = './icon/check.png' if item.startswith('-') else './icon/uncheck.png'
             tmpList.append({
                 "valid": True,
                 "title": str(i) + '.' + item,
@@ -32,7 +20,7 @@ def searchList():
                 "mods": {
                     "ctrl": {
                         "valid": True,
-                        "arg": '[@]' + item,
+                        "arg": '[@]' + item.strip(),
                         "subtitle": "reset"
                     },
                     "cmd": {
@@ -45,59 +33,59 @@ def searchList():
     return tmpList
 
 
-def appendAdd(info):
+def appendAdd(item):
     res.append({
         "title": "-a  new todo",
-        "subtitle": "add new todo '" + info + "'",
+        "subtitle": "add new todo '" + item + "'",
         "autocomplete": "-a ",
-        "icon":{"path": "./icon/add.jpg"},
-        "arg": "[+]" + info
+        "icon": {"path": "./icon/add.png"},
+        "arg": "[+]" + item.strip()
     })
 
 
-def resetAll(info):
+def resetAll(item):
     res.append({
-        "title": "-r  reset all", 
+        "title": "-r  reset all",
         "subtitle": "reset all todo",
         "autocomplete": "-r",
-        "icon": {"path": "./icon/reset.jpg"}, 
+        "icon": {"path": "./icon/reset.png"},
         "arg": "[r]"})
 
 
-def clearAll(info):
+def clearAll(item):
     res.append({
-        "title": "-c  clear all done", 
-        "subtitle": "clear all done", 
+        "title": "-c  clear all done",
+        "subtitle": "clear all done",
         "autocomplete": "-c",
-        "icon": {"path": "./icon/delete.png"}, 
+        "icon": {"path": "./icon/delete.png"},
         "arg": "[c]"})
 
 
-actionList = [
-    {"name": '-a',
-     "function": appendAdd},
-    {"name": '-r',
-     "function": resetAll},
-    {"name": '-c',
-     "function": clearAll},
-]
+res = []
 
-info = querys[3:]
-if query.startswith('-'):  # 命令操作
-    action = query.split('\ ')[0]
-    for item in actionList:
-        if item['name'].startswith(action):
-            item['function'](info.strip())
+if __name__ == '__main__':
 
-else:
-    resultList = searchList()
-    if len(resultList) == 0:
-        appendAdd(querys)
-    else:
-        res.extend(resultList)
+    query = sys.argv[1]
+    path = sys.argv[2]
+    actionList = {
+        '-a': appendAdd,
+        '-r': resetAll,
+        '-c': clearAll,
+    }
 
+    with open(path, 'r') as f:
+        querys = query.strip().replace("\ ", "  ").strip()
+        info = querys[3:]
+        if query.startswith('-'):
+            action = query.split('\ ')[0]
+            for key, func in actionList.items():
+                if key.startswith(action):
+                    func(info.strip())
+        else:
+            resultList = searchList(f, query)
+            if len(resultList) == 0:
+                appendAdd(querys)
+            else:
+                res.extend(resultList)
 
-file.close()
-ret = json.dumps({"items": res})
-
-print(ret)
+        print json.dumps({"items": res})
