@@ -1,70 +1,48 @@
 # coding=utf-8
 import sys
+import json
+import copy
 
 
-def dealTodo(func):
-    with open(path, 'r+') as oldFile:
-        txt = ''
-        for oldLine in oldFile.readlines():
-            txt = func(oldLine.strip(), txt) + '\n'
-        with open(path, 'w+') as newFile:
-            newFile.write(txt)
-
-
-def complete(item, txt):
-    if item == query and not item.startswith('-'):
-        txt += ("-" + item)
+def operate_todo(operate, txt):
+    with open(path) as f:
+        todo_list = json.load(f)
+    if originQuery.startswith('[+]'):
+        todo_list.append({
+            'status': 'wait',
+            'title': txt
+        })
+    elif originQuery.startswith('[x]'):
+        for item in todo_list:
+            if item['title'] == txt:
+                item['status'] = 'done'
+                break
+    elif originQuery.startswith('[@]'):
+        for item in todo_list:
+            if item['title'] == txt:
+                item['status'] = 'wait'
+                break
+    elif originQuery.startswith('[-]'):
+        index = None
+        for i, item in enumerate(todo_list):
+            if item['title'] == txt:
+                index = i
+                break
+        del todo_list[index]
+    elif originQuery.startswith('[r]'):
+        for item in todo_list:
+            item['status'] = 'wait'
+    elif originQuery.startswith('[c]'):
+        todo_list = [todo for todo in todo_list if todo['status'] != 'done']
     else:
-        txt += item
-    return txt
-
-
-def reset(item, txt):
-    if item == query and item.startswith('-'):
-        txt += item[1:]
-    else:
-        txt += item
-    return txt
-
-
-def delete(item, txt):
-    if item != query:
-        txt += item
-    return txt
-
-
-def resetAll(item, txt):
-    txt += item.replace('-', '')
-    return txt
-
-
-def clearDone(item, txt):
-    if not item.startswith('-'):
-        txt += item
-    return txt
+        return
+    with open(path, 'w') as f:
+        json.dump(todo_list, f)
 
 
 if __name__ == '__main__':
     originQuery = sys.argv[1].strip()
     path = sys.argv[2]
-    query = originQuery[3:]
-    hasQuery = (len(query) > 0)
-
-    if hasQuery:
-        if originQuery.startswith('[+]'):
-            with open(path, 'a') as f:
-                queryList = query.split('\ ')
-                for line in queryList:  # 多行添加
-                    if len(line) > 0:
-                        f.write(line + '\n')
-        elif originQuery.startswith('[x]'):
-            dealTodo(complete)
-        elif originQuery.startswith('[@]'):
-            dealTodo(reset)
-        elif originQuery.startswith('[-]'):
-            dealTodo(delete)
-    else:
-        if originQuery.startswith('[r]'):
-            dealTodo(resetAll)
-        elif originQuery.startswith('[c]'):
-            dealTodo(clearDone)
+    query = originQuery[3:].strip()
+    operate = originQuery[:3]
+    operate_todo(operate, query)

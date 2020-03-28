@@ -4,32 +4,33 @@ import json
 import sys
 
 
-def searchList(fs, q):
+def searchList(todo_list, q):
     tmpList = []
-    i = 0
-    for item in fs.readlines():
-        if q in item:
-            i += 1
-            icon = './icon/check.png' if item.startswith('-') else './icon/uncheck.png'
-            tmpList.append({
-                "valid": True,
-                "title": str(i) + '.' + item,
-                "subtitle": "enter --> 完成任务, cmd --> 删除任务 ctrl --> 恢复任务",
-                "icon": {"path": icon},
-                "arg": '[x]' + item,
-                "mods": {
-                    "ctrl": {
-                        "valid": True,
-                        "arg": '[@]' + item.strip(),
-                        "subtitle": "reset"
-                    },
-                    "cmd": {
-                        "valid": True,
-                        "arg": '[-]' + item,
-                        "subtitle": "delete"
-                    },
+    for i, todo_item in enumerate(todo_list, 1):
+        if q not in todo_item['title']:
+            continue
+        status = todo_item['status']
+        title = todo_item['title'].strip()
+        icon = './icon/check.png' if status == 'done' else './icon/uncheck.png'
+        tmpList.append({
+            "valid": True,
+            "title": '{}. {}'.format(i, title),
+            "subtitle": "enter --> 完成任务, cmd --> 删除任务 ctrl --> 恢复任务",
+            "icon": {"path": icon},
+            "arg": '[x]' + title,
+            "mods": {
+                "ctrl": {
+                    "valid": True,
+                    "arg": '[@]' + title,
+                    "subtitle": "reset"
                 },
-            })
+                "cmd": {
+                    "valid": True,
+                    "arg": '[-]' + title,
+                    "subtitle": "delete"
+                },
+            },
+        })
     return tmpList
 
 
@@ -72,20 +73,22 @@ if __name__ == '__main__':
         '-r': resetAll,
         '-c': clearAll,
     }
-
-    with open(path, 'r') as f:
-        querys = query.strip().replace("\ ", "  ").strip()
-        info = querys[3:]
-        if query.startswith('-'):
-            action = query.split('\ ')[0]
-            for key, func in actionList.items():
-                if key.startswith(action):
-                    func(info.strip())
-        else:
-            resultList = searchList(f, query)
-            if len(resultList) == 0:
-                appendAdd(querys)
-            else:
+    querys = query.strip().strip()
+    # print querys
+    # info = querys
+    info = querys[3:]
+    if query.startswith('-'):
+        action = query.split('\ ')[0]
+        for key, func in actionList.items():
+            if key.startswith(action):
+                func(info.strip())
+                break
+    else:
+        with open(path, 'r') as f:
+            todo_list = json.load(f)
+            resultList = searchList(todo_list, query)
+            if resultList:
                 res.extend(resultList)
-
-        print json.dumps({"items": res})
+            else:
+                appendAdd(querys)
+    print(json.dumps({"items": res}))

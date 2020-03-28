@@ -20,9 +20,30 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>499994B2-1043-45AD-AB7C-5B6DBC53EDF0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 		<key>9EF020F3-CDBB-43C1-8E32-ABC7B65EE756</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>499994B2-1043-45AD-AB7C-5B6DBC53EDF0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>GeekerHua</string>
@@ -43,7 +64,7 @@
 				<integer>127</integer>
 				<key>script</key>
 				<string>filePath=${path/#~/"$HOME"}
-python cmd/todo.py "{query}" "${filePath}"</string>
+python3 cmd/todo.py "{query}" "${filePath}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -63,6 +84,10 @@ python cmd/todo.py "{query}" "${filePath}"</string>
 			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -70,7 +95,7 @@ python cmd/todo.py "{query}" "${filePath}"</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>keyword</key>
-				<string>todo</string>
+				<string>td</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -83,13 +108,11 @@ python cmd/todo.py "{query}" "${filePath}"</string>
 				<string>wait</string>
 				<key>script</key>
 				<string>filePath=${path/#~/"$HOME"}
-if ! [ -e ${path} ];
+if [ -e ${path} ];
 then 
-	mkdir -p ${filePath}
-	rmdir ${filePath}
-	touch ${filePath} 
+	mkdir -p ${filePath}; rmdir ${filePath};touch ${filePath} 
 fi
-python cmd/alfred.py '{query}' ${filePath}</string>
+python3 cmd/alfred.py '{query}' ${filePath}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -108,7 +131,24 @@ python cmd/alfred.py '{query}' ${filePath}</string>
 			<key>uid</key>
 			<string>560AEA2C-7E51-4BC4-9E9B-A7640F0FF22C</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>'{query}', {allvars}</string>
+				<key>cleardebuggertext</key>
+				<false/>
+				<key>processoutputs</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.debug</string>
+			<key>uid</key>
+			<string>499994B2-1043-45AD-AB7C-5B6DBC53EDF0</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -122,6 +162,13 @@ python cmd/alfred.py '{query}' ${filePath}</string>
 "todo -r"  --&gt; reset all 重置所有任务为未完成状态。</string>
 	<key>uidata</key>
 	<dict>
+		<key>499994B2-1043-45AD-AB7C-5B6DBC53EDF0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>490</integer>
+			<key>ypos</key>
+			<integer>355</integer>
+		</dict>
 		<key>560AEA2C-7E51-4BC4-9E9B-A7640F0FF22C</key>
 		<dict>
 			<key>xpos</key>
