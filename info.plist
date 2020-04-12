@@ -64,7 +64,7 @@
 				<integer>127</integer>
 				<key>script</key>
 				<string>filePath=${path/#~/"$HOME"}
-python3 cmd/todo.py "{query}" "${filePath}"</string>
+python3 cmd/todo.py {query} "${filePath}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -112,7 +112,7 @@ if [ -e ${path} ];
 then 
 	mkdir -p ${filePath}; rmdir ${filePath};touch ${filePath} 
 fi
-python3 cmd/alfred.py '{query}' ${filePath}</string>
+python3 cmd/alfred.py {query} ${filePath}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -191,6 +191,8 @@ python3 cmd/alfred.py '{query}' ${filePath}</string>
 		<key>path</key>
 		<string>~/Documents/Alfred/todos/todo.txt</string>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
 	<string>1.6</string>
 	<key>webaddress</key>

@@ -37,7 +37,7 @@ def searchList(todo_list, q):
 def appendAdd(item):
     res.append({
         "title": "-a  new todo",
-        "subtitle": "add new todo '" + item + "'",
+        "subtitle": f"add new todo '{item}'",
         "autocomplete": "-a ",
         "icon": {"path": "./icon/add.png"},
         "arg": "[+]" + item.strip()
@@ -65,20 +65,21 @@ def clearAll(item):
 res = []
 
 if __name__ == '__main__':
-
-    query = sys.argv[1]
-    path = sys.argv[2]
+    if len(sys.argv) == 2:
+        query = ''
+        path = sys.argv[1]
+    else:
+        query = sys.argv[1]
+        path = sys.argv[2]
     actionList = {
         '-a': appendAdd,
         '-r': resetAll,
         '-c': clearAll,
     }
-    querys = query.strip().strip()
-    # print querys
-    # info = querys
+    querys = query.strip()
     info = querys[3:]
     if query.startswith('-'):
-        action = query.split('\ ')[0]
+        action = query
         for key, func in actionList.items():
             if key.startswith(action):
                 func(info.strip())
